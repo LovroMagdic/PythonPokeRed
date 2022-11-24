@@ -8,6 +8,8 @@ import sys
 from numpy import asarray
 from numpy import savetxt
 import pyautogui
+from random import *
+
 
 '''
 Point(x=193, y=175) gornji lijevi
@@ -18,7 +20,7 @@ Point(x=199, y=273) donji lijevi
 
 direction_array = []
 csv_array = []
-last = "screen-left.csv"
+arr = []
 
 #box_size 90x90
 left,upper,right,lower = 193.5,174.5,286.5,266.5
@@ -45,9 +47,9 @@ def get4points():
 
 def getScreen():
     for i in range(60):
-        screenshot = ImageGrab.grab(bbox=(195,175,285,265)) #left,upper,right,lower
+        screenshot = ImageGrab.grab(bbox=(left,upper,right,lower)) #left,upper,right,lower
         name = "screen" + ".jpg"
-        os.chdir(r"C:\Users\Lovro\Desktop\python-razno\pokeAI\recordings")
+        os.chdir(r"C:\Users\Lovro\Desktop\PythonPokeRed\recordings")
         screenshot.save(name, 'PNG')
         return(name)
 
@@ -95,9 +97,26 @@ def getCsv():
         csv_array.append(name)
 
 def decide(dictImage):
-    temp = []
     for key in dictImage:
-        temp.append(dictImage[key])
+        tmp = (10 - (dictImage[key] % 10) ) + dictImage[key]
+        dictImage[key] = tmp
+
+    decide = min(dictImage, key=dictImage.get)
+    arr.append(decide)
+    save = [decide, dictImage[decide]]
+    del dictImage[decide]
+
+    decide = min(dictImage, key=dictImage.get)
+    arr.append(decide)
+
+    dictImage[save[0]] = save[1]
+    print(arr)
+
+    if dictImage[arr[0]] == dictImage[arr[1]]:
+        rem = randint(0, 1)
+        arr.remove(arr[rem])
+    return arr[0]
+
 
 #main
 for i in range(10):
@@ -115,9 +134,9 @@ for i in range(10):
                 R += int(tmp[i])
                 G += int(tmp[i+1])
                 B += int(tmp[i+2])
-        R = R / 900
-        G = G / 900
-        B = B / 900
+        R = R / 961
+        G = G / 961
+        B = B / 961
         #print("RED : %d, GREEN : %d, BLUE : %d" % (R, G, B))
         pixel_value = int((R+G+B)/3)
         #print("%d" % (pixel_value))
@@ -128,11 +147,12 @@ for i in range(10):
     res = 0
     print(dictImage)
     for key in dictImage:
-        tmp = abs(dictImage[key] - 213)
+        tmp = abs(213 - dictImage[key])
         dictImage[key] = tmp
-
-    decision = min(dictImage, key=dictImage.get)
-    decide(dictImage)
+    print(dictImage)
+    decision = decide(dictImage)
+    arr = []
+    print(dictImage)
     print(decision)
     if decision == "screen-left.csv":
         pyautogui.click(x=55, y=563)
@@ -145,11 +165,10 @@ for i in range(10):
     elif decision == "screen-right.csv":
         pyautogui.click(x=89, y=561)
         time.sleep(0.5)
-        pyautogui.click(x=74, y=561)
+        pyautogui.click(x=89, y=561)
     elif decision == "screen-down.csv":
         pyautogui.click(x=74, y=587)
         time.sleep(0.5)
         pyautogui.click(x=74, y=587)
-    last = decision
     time.sleep(0.5)
 
