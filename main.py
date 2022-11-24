@@ -110,7 +110,6 @@ def decide(dictImage):
     arr.append(decide)
 
     dictImage[save[0]] = save[1]
-    print(arr)
 
     if dictImage[arr[0]] == dictImage[arr[1]]:
         rem = randint(0, 1)
@@ -119,7 +118,7 @@ def decide(dictImage):
 
 
 #main
-for i in range(10):
+for i in range(15):
     screen = getScreen()
     direction(screen)
     getCsv()
@@ -145,30 +144,30 @@ for i in range(10):
 
     #idealna je 213
     res = 0
-    print(dictImage)
+    # print(dictImage)
     for key in dictImage:
         tmp = abs(213 - dictImage[key])
         dictImage[key] = tmp
-    print(dictImage)
+    # print(dictImage)
     decision = decide(dictImage)
     arr = []
-    print(dictImage)
-    print(decision)
+    # print(dictImage)
+    # print(decision)
     if decision == "screen-left.csv":
         pyautogui.click(x=55, y=563)
-        time.sleep(0.5)
+        time.sleep(0.2)
         pyautogui.click(x=55, y=563)
     elif decision == "screen-up.csv":
         pyautogui.click(x=74, y=538)
-        time.sleep(0.5)
+        time.sleep(0.2)
         pyautogui.click(x=74, y=538)
     elif decision == "screen-right.csv":
         pyautogui.click(x=89, y=561)
-        time.sleep(0.5)
+        time.sleep(0.2)
         pyautogui.click(x=89, y=561)
     elif decision == "screen-down.csv":
         pyautogui.click(x=74, y=587)
-        time.sleep(0.5)
+        time.sleep(0.2)
         pyautogui.click(x=74, y=587)
-    time.sleep(0.5)
+    time.sleep(0.1)
 
