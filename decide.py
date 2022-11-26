@@ -1,8 +1,5 @@
 
 from random import *
-
-dictImage = {'screen-left.csv': 138, 'screen-up.csv': 117, 'screen-right.csv': 138, 'screen-down.csv': 127}
-arr =[]
 def decide(dictImage):
     for key in dictImage:
         tmp = (10 - (dictImage[key] % 10) ) + dictImage[key]
@@ -23,5 +20,28 @@ def decide(dictImage):
         arr.remove(arr[rem])
     return arr[0]
 
-choice = decide(dictImage)
+def last_decide(dictImage, last_decision):
+    temp = 0
+    for key in dictImage:
+        tmp = (10 - (dictImage[key] % 10) ) + dictImage[key]
+        dictImage[key] = tmp
+    print(dictImage)
+    
+    for key in dictImage:
+        temp = temp + dictImage[key]
+    temp = temp / 4
+    print(temp)
+    print(dictImage[last_decision])
+    if dictImage[last_decision] < temp:
+        choice = decide(dictImage)
+        return choice
+    else:
+        return last_decision
+
+
+dictImage = {'screen-left.csv': 138, 'screen-up.csv': 117, 'screen-right.csv': 138, 'screen-down.csv': 127}
+arr =[]
+
+last_decision = 'screen-left.csv'
+choice = last_decide(dictImage, last_decision)
 print(choice)

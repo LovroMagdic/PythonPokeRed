@@ -17,7 +17,7 @@ Point(x=287, y=174) gornji desni
 Point(x=293, y=273) donji desni
 Point(x=199, y=273) donji lijevi
 '''
-
+last_decision = ""
 direction_array = []
 csv_array = []
 arr = []
@@ -116,9 +116,20 @@ def decide(dictImage):
         arr.remove(arr[rem])
     return arr[0]
 
+def last_decide(dictImage, last_decision):
+    temp = 0
+    for key in dictImage:
+        temp = temp + dictImage[key]
+    temp = temp / 4
+
+    if dictImage[last_decision] > temp:
+        choice = decide(dictImage)
+        return choice
+    else:
+        return last_decision
 
 #main
-for i in range(15):
+while True:
     screen = getScreen()
     direction(screen)
     getCsv()
@@ -144,30 +155,33 @@ for i in range(15):
 
     #idealna je 213
     res = 0
-    # print(dictImage)
+    # print(dictImage)1
     for key in dictImage:
         tmp = abs(213 - dictImage[key])
         dictImage[key] = tmp
-    # print(dictImage)
-    decision = decide(dictImage)
+    print(dictImage)
+    if last_decision == "":
+        decision = decide(dictImage)
+    else:
+        decision = last_decide(dictImage, last_decision)
+    last_decision = decision
     arr = []
-    # print(dictImage)
-    # print(decision)
+    print(decision)
     if decision == "screen-left.csv":
         pyautogui.click(x=55, y=563)
         time.sleep(0.2)
-        pyautogui.click(x=55, y=563)
+        # pyautogui.click(x=55, y=563)
     elif decision == "screen-up.csv":
         pyautogui.click(x=74, y=538)
         time.sleep(0.2)
-        pyautogui.click(x=74, y=538)
+        # pyautogui.click(x=74, y=538)
     elif decision == "screen-right.csv":
         pyautogui.click(x=89, y=561)
         time.sleep(0.2)
-        pyautogui.click(x=89, y=561)
+        # pyautogui.click(x=89, y=561)
     elif decision == "screen-down.csv":
         pyautogui.click(x=74, y=587)
         time.sleep(0.2)
-        pyautogui.click(x=74, y=587)
+        # pyautogui.click(x=74, y=587)
     time.sleep(0.1)
 
